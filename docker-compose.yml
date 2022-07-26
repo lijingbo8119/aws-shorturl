@@ -1,0 +1,46 @@
+version: "3.9"  # optional since v1.27.0
+services:
+
+  mysql:
+    image: mysql
+    volumes:
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=dev_root_password
+      - TZ=Asia/Shanghai
+
+  nodejs:
+    build: 
+      dockerfile: Dockerfile.frontend
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    links:
+      - mysql
+      - django
+    depends_on:
+      - mysql
+      - django
+    volumes:
+      - ./frontend:/var/www/html
+    working_dir: /var/www/html
+    stdin_open: true
+    tty: true
+    # command: ./entrypoint.sh
+
+  django:
+    build:
+      dockerfile: Dockerfile.backend
+    ports:
+      - "8080:8080"
+    links:
+      - mysql
+    depends_on:
+      - mysql
+    volumes:
+      - ./backend:/home
+    working_dir: /home
+    tty: true
+    command: ./entrypoint.sh

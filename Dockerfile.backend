@@ -1,0 +1,12 @@
+FROM python
+
+COPY ./dockerize-linux-amd64-v0.6.1.tar.gz /dockerize-linux-amd64-v0.6.1.tar.gz
+RUN tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.1.tar.gz \
+    && rm dockerize-linux-amd64-v0.6.1.tar.gz
+
+RUN apt update && apt install -y default-libmysqlclient-dev build-essential
+RUN python -m pip install --upgrade pip
+RUN python -m pip install Django
+RUN pip install mysqlclient
+
+# python manage.py runserver 0.0.0.0:8080
