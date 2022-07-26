@@ -2,5 +2,6 @@
 node_modules/
 
 # production bundles
-dist/
+# dist/
 public/js/app.js
+__pycache__/
