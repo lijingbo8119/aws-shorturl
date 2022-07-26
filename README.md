@@ -1,4 +1,10 @@
-# aws-shorturl
+# Solution Builder - Full Stack - Assignment
+
+## About Me
+* Name: Li Jingbo
+* Email: me@ljb.ink
+* Mobile: 15598259922
+* Main Stack: Go, PHP, TS, MySQL, Redis, Cassandra, MongoDB, InfluxDB etc.
 
 ## **Brief introduction to the project**
 * LAMP stack with MySQL, Apache and Python all running on one desktop PC.
@@ -13,11 +19,12 @@
 * GitHub address
 > https://github.com/lijingbo8119/aws-shorturl
 
+* Preview
+
+><img src='https://github.com/lijingbo8119/aws-shorturl/blob/master/images/preview.png?raw=true' style='width: 500px'/>
+
 * Architecture
 >![Preview](https://github.com/lijingbo8119/aws-shorturl/blob/master/images/architecture1.png?raw=true)
-
-* Preview
->![Preview](https://github.com/lijingbo8119/aws-shorturl/blob/master/images/preview.png?raw=true)
 
 ### **How to run the project**
 ```bash
