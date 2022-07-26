@@ -1,21 +1,23 @@
 # aws-shorturl
 
 ## **Brief introduction to the project**
-* LAMP stack with MySQL, Apache and Python all running on one desktop PC
-* A short url service
-* Stack
+* LAMP stack with MySQL, Apache and Python all running on one desktop PC.
+* A short url service.
+* Technology stack
   * Web Service: [Apache Httpd](https://github.com/apache/httpd)
   * Frontend: [TypeScript](https://github.com/microsoft/TypeScript), [React](https://github.com/facebook/react), [Ant Design](https://github.com/ant-design/ant-design), [Axios](https://github.com/axios/axios)
   * Backend For Frontend: [node.js](https://github.com/topics/nodejs), [TypeScript](https://github.com/microsoft/TypeScript), [Express](https://github.com/expressjs/express), [Axios](https://github.com/axios/axios)
   * Backend: [Python](https://github.com/search?q=python), [Django](https://github.com/django/django)
   * Storage: [MySQL](https://github.com/mysqljs/mysql)
   * DevOps: [Docker Compose](https://docs.docker.com/compose/)
-  
-* 架构
-![Preview](https://github.com/lijingbo8119/aws-shorturl/blob/master/images/architecture1.png?raw=true)
+* GitHub address
+> https://github.com/lijingbo8119/aws-shorturl
+
+* Architecture
+>![Preview](https://github.com/lijingbo8119/aws-shorturl/blob/master/images/architecture1.png?raw=true)
 
 * Preview
-![Preview](https://github.com/lijingbo8119/aws-shorturl/blob/master/images/preview.png?raw=true)
+>![Preview](https://github.com/lijingbo8119/aws-shorturl/blob/master/images/preview.png?raw=true)
 
 ### **How to run the project**
 ```bash
@@ -23,6 +25,10 @@ $ git clone git@github.com:lijingbo8119/aws-shorturl.git
 $ cd aws-shorturl
 & docker compose up
 
+# Wait for building job done.
+# Use http://localhost:3000(nodejs server address) 
+# or http://localhost:9000(httpd server address)
+# to visit project.
 ws-shorturl-django-1        | Django version 4.0.6, using settings 'app.settings'
 aws-shorturl-django-1       | Starting development server at http://0.0.0.0:8080/
 aws-shorturl-django-1       | Quit the server with CONTROL-C.
@@ -35,8 +41,8 @@ aws-shorturl-nodejs-1       | Server listening on port: 3000
 
 ### **Business logic and algorithms**
 * Uses the combination of uppercase and lowercase letters A-Z and digits to convert hexadecimal letters to hexadecimal letters.
-* The long_URL is sent via a POST HTTP request to the back end, which generates a record in MySQL. The primary key ID is used as the short path, and the short path URL is spliced to return to the front end.
-* Access the short path URL, verify the parameter SHORT_path carried by the backend, try to convert it to int ID, retrieve the corresponding record from the database, obtain the corresponding long address, and return 302 for redirection operation.
+* Send long URL via POST HTTP request to the backend, which generates a record in MySQL. The primary key ID is used as the short path.
+* Access the short path URL, verify the parameter short_path carried by the backend, try to convert it to int ID, retrieve the corresponding record from the database, obtain the corresponding long address, and return 302 for redirection operation.
 ```TypeScript
 export class Shorter {
     // The character list is scrambled, making the generated SHORT_PATH look less regular.
@@ -91,7 +97,8 @@ export class Shorter {
 
 ### Storage
 
-The database uses MySQL, and Docker compose initializes the MySQL service and automatically creates a Schema.
+Using MySQL as storage middleware.
+Initializes the MySQL service and automatically creates a Schema when the container starts.
 
 ```YAML
 version: "3.9"  # optional since v1.27.0
@@ -148,38 +155,50 @@ Lines        : 62.83% ( 71/113 )
 
 ### Using AWS to improve the overall architecture of the project
 
-1. Add CI/CD pipe line
-![Preview](https://github.com/lijingbo8119/aws-shorturl/blob/master/images/architecture-cicd.png?raw=true)
+1. CI/CD
 
-2. Using Amazon Elastic Container Registry to manage image
-Amazon ECR is a fully managed container registry offering high-performance hosting, so you can reliably deploy application images and artifacts anywhere.
-![Preview](https://github.com/lijingbo8119/aws-shorturl/blob/master/images/Amazon-ECR.png?raw=true)
+>![Preview](https://github.com/lijingbo8119/aws-shorturl/blob/master/images/architecture-cicd.png?raw=true)
 
-3. Amazon API Gateway
-![Preview](https://github.com/lijingbo8119/aws-shorturl/blob/master/images/architecture-gateway.png?raw=true)
+Add CI/CD pipe-line, push the images(frontend and backend) to the Amazon ECR.
 
-4. AWS Lambda
-![Preview](https://github.com/lijingbo8119/aws-shorturl/blob/master/images/architecture-func.png?raw=true)
+2. [Amazon Elastic Container Registry](https://aws.amazon.com/cn/ecr)
 
-5. Amazon Aurora Serverless
-![Preview](https://github.com/lijingbo8119/aws-shorturl/blob/master/images/architecture-database.png?raw=true)
+> Amazon ECR is a fully managed container registry offering high-performance hosting, so you can reliably deploy application images and artifacts anywhere.
+
+Using Amazon ECR to manage proejct images(frontend and backend).
+
+3. [Amazon API Gateway](https://aws.amazon.com/cn/api-gateway/)
+> Amazon API Gateway is a fully managed service that makes it easy for developers to create, publish, maintain, monitor, and secure APIs at any scale. 
+
+Replace current web service layer(httpd) of current project, use Amazon API Gateway as new web service layer.
+
+4. [AWS Lambda](https://aws.amazon.com/cn/lambda/features)
+
+> AWS Lambda is a serverless, event-driven compute service that lets you run code for virtually any type of application or backend service without provisioning or managing servers.
+
+using AWS Lambda for deploy project(images from Amazon ECR). 
+
+5. [Amazon Aurora Serverless](https://aws.amazon.com/cn/rds/aurora/serverles)
+
+> Amazon Aurora Serverless is an on-demand, autoscaling configuration for Amazon Aurora. It automatically starts up, shuts down, and scales capacity up or down based on your application's needs. You can run your database on AWS without managing database capacity.
+
+6. [AWS Database Migration Service](https://aws.amazon.com/cn/dms)
+
+> AWS Database Migration Service (AWS DMS) helps you migrate databases to AWS quickly and securely.
+
+Using AWS DMS to Migration data from old MySQL to Amazon Aurora Serverless.
 
 ### Goal
-* Final 
-![Preview](https://github.com/lijingbo8119/aws-shorturl/blob/master/images/architecture2.png?raw=true)
-
-* migrating to cloud native architecture by leveraging containers/serverless and DevOps to improve agility and reduce operation burden.
-* securing access to the container environment, include authentication and authorization.
-* effective distribution of load a self-healing infrastructure that recovers from failure 
-* scaling to meet the demand, but with uncertainty around when and how much this demand will be they are very concerned about buying too much infrastructure too soon or not enough too late!
-* automated continues integration and deployment for the application
-* be able to easily manage and replicate multiple environments based on their blueprint architecture.
-* effectively monitoring the infrastructure and the applications, ingesting and aggregating logs of applications.
+* Final architecture
+>![Preview](https://github.com/lijingbo8119/aws-shorturl/blob/master/images/architecture2.png?raw=true)
 
 ### My effort
 
 1. Learned basic usage for Python and web framework Django. Write Backend code from zero to one.
+
 2. Learned basic concept and usage for React. Write Frontend(including bff) code from zero to one.
+
 3. Learned basic usage of httpd.
+
 4. Use docker compose to DevOps the projects. write docker-compose yaml file.
 
