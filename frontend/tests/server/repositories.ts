@@ -16,8 +16,5 @@ describe("ShortUrlRepo", function () {
 
     const instance2 = await repo.findUnique({ id: 0 });
     assert.equal(instance2, null);
-
-    const instance3 = await repo.delete({ where: {id: Shorter.strToId(instance1?.short_path as string)} });
-    assert.equal(instance3.id, instance1?.id);
   });
 });

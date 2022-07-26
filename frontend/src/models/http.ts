@@ -7,6 +7,7 @@ export enum StatusCode {
     ResourceNotFound = 404,
     UnprocessableEntity = 422,
     ServerFailed = 500,
+    Redirect = 302,
 }
 
 export class ResponseData<T> {

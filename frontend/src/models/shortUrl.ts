@@ -1,5 +1,5 @@
 import { Shorter } from '../../src/server/lib'
-// import { short_urls } from '@prisma/client'
+
 export interface ShortUrl {
 	id: number;
 	long_url: string;

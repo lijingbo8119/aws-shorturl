@@ -1,6 +1,7 @@
 import React from 'react';
 import { ShortUrl } from '../models/shortUrl';
-import { Descriptions } from 'antd';
+import { Descriptions, Typography } from 'antd';
+const { Paragraph } = Typography;
 
 interface AppDetailProps {
   data: ShortUrl | null
@@ -16,10 +17,16 @@ export default class extends React.Component<AppDetailProps, AppDetailState> {
   render() {
     const style = { display: this.props.data ? 'block' : 'none' };
     return (
-      <Descriptions title="User Info" style={style} column={1}>
-        <Descriptions.Item label="long_url">{this.props.data?.long_url}</Descriptions.Item>
-        <Descriptions.Item label="short_url">{this.props.data?.short_url}</Descriptions.Item>
-        <Descriptions.Item label="created_at">{this.props.data?.created_at}</Descriptions.Item>
+      <Descriptions title="" style={style} column={1}>
+        <Descriptions.Item label="长网址">
+          <Paragraph>{this.props.data?.long_url}</Paragraph>
+        </Descriptions.Item>
+        <Descriptions.Item label="短网址">
+          <Paragraph copyable={{ tooltips: true }}>{window.location.origin + '/s/' + this.props.data?.short_path}</Paragraph>
+        </Descriptions.Item>
+        <Descriptions.Item label="创建日期">
+        <Paragraph>{this.props.data?.created_at}</Paragraph>
+        </Descriptions.Item>
       </Descriptions>
     );
   }

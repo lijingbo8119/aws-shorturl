@@ -42,7 +42,7 @@ export default class extends React.Component<AppFormProps, AppFormState> {
 				<Form.Item
 					label="长网址"
 					name="long_url"
-					rules={[{ required: true, message: '长网址必须填写' }]}
+					rules={[{ required: true, message: '长网址为空或不是合法的URL', pattern: /(http|ftp|https):\/\/[\w\-_]+(\.[\w\-_]+)+([\w\-\.,@?^=%&:/~\+#]*[\w\-\@?^=%&/~\+#])?/ }]}
 				>
 					<Input
 						size="large"
