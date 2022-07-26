@@ -14,7 +14,6 @@ services:
   nodejs:
     build: 
       dockerfile: Dockerfile.frontend
-      context: ./frontend
     ports:
       - "3000:3000"
     links:
@@ -28,7 +27,7 @@ services:
     working_dir: /var/www/html
     stdin_open: true
     tty: true
-    # command: ./entrypoint.sh
+    command: ./entrypoint.sh
 
   django:
     build:
@@ -44,3 +43,15 @@ services:
     working_dir: /home
     tty: true
     command: ./entrypoint.sh
+
+  web-service:
+    build:
+      dockerfile: Dockerfile.httpd
+    ports:
+      - "9000:80"
+    links:
+      - nodejs
+    depends_on:
+      - nodejs
+    volumes:
+      - ./httpd/httpd.conf:/usr/local/apache2/conf/httpd.conf
